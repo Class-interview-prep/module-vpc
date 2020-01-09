@@ -4,7 +4,7 @@
 ##### copy and paste this to your main.tf and adjust variables according to your needs.
 
 ```
-module "vpc" {
+module "myvpc" {
   source = "git::https://github.com/hakten/vpc-module.git"
   
   cidr            = "10.0.0.0/16"
