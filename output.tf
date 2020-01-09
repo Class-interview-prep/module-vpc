@@ -7,7 +7,7 @@ output "vpc_cidr" {
 }
 
 output "public_subnets" {
-  value = "${aws_subnet.public_subnets[0].id}"
+  value = "${aws_subnet.public_subnets[*].id}"
 }
 
 output "private_subnets" {
