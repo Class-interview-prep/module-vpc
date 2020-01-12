@@ -1,4 +1,8 @@
-### vpc-module for terraform
+## Read Me
+
+### Purpose of this module
+
+### this module will create aws vpc with given cidr block
 ##### multiple public and private subnets with nat
 
 ##### copy and paste this to your main.tf and adjust variables according to your needs.
