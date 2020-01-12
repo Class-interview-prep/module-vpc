@@ -1,4 +1,4 @@
-### This module will create AWS VPC with the following resources and specifications.
+## This module will create AWS VPC with the following resources and specifications.
 
 * Multiple public and private subnets will be created
 * Your subnets are not limited to the number of availability zones
@@ -9,7 +9,7 @@
 
 
 
-### Copy and paste this to your main.tf and adjust variables according to your needs.
+#### Copy and paste this to your main.tf and adjust variables according to your needs.
 
 ```
 module "vpc" {
