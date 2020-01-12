@@ -1,11 +1,11 @@
-## Purpose of this module
+# This module will create AWS VPC with the following resources and specifications.
 
-#### This module will create aws vpc with public and private subnets
-#### Your subnets are not limited to the number of availability zones
-#### Single internet gateway will be created for public subnets
-#### One nat gateway will be created for each availability zone for high availability and fault tolerance
-#### Every resource will be tagged with "project" and "environment", so that they can be tracked by monitoring tools.
-#### Tags will also be used in naming schema. This will make navigating through your resources easier.
+* This module will create multiple public and private subnets
+* Your subnets are not limited to the number of availability zones
+* Single internet gateway will be created for public subnets
+* One nat gateway will be created for each availability zone for high availability and fault tolerance
+* Every resource will be tagged with "project" and "environment", so that they can be tracked by monitoring tools.
+* Tags will also be used in naming schema. This will make navigating through your resources easier.
 
 ##### copy and paste this to your main.tf and adjust variables according to your needs.
 
