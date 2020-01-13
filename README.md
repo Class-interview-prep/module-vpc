@@ -1,4 +1,4 @@
-### This module will create AWS VPC with the following resources and specifications.
+## This module will create AWS VPC with the following resources and specifications.
 
 * Multiple public and private subnets will be created, not limited to azs, you can create as many as you want.
 * Single internet gateway will be created for public subnets.
@@ -8,7 +8,7 @@
 
 
 
-##### Copy and paste this to your main.tf and adjust variables according to your needs.
+#### Copy and paste this to your main.tf and adjust variables according to your needs.
 
 ```
 module "vpc" {
