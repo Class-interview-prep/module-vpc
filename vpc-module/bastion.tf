@@ -12,5 +12,5 @@ resource "aws_instance" "bastion" {
 }
 
 output "instance" {
-  value = "aws_instance.bastion.id"
+  value = aws_instance.bastion.id
 }
