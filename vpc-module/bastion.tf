@@ -10,3 +10,7 @@ resource "aws_instance" "bastion" {
     Name = "Bastion"
   }
 }
+
+output "instance" {
+  value = "aws_instance.bastion.id"
+}
