@@ -68,7 +68,7 @@ resource "aws_route_table_association" "public_route_table_association" {
 }
 
 resource "aws_eip" "eip" {
-  count          = "${length(var.azs)}"
+  count          = "${length(var.private_subnets)}"
   vpc            = true
 
   tags = {
@@ -79,7 +79,7 @@ resource "aws_eip" "eip" {
 }
 
 resource "aws_nat_gateway" "nat" {
-  count           = "${length(var.azs)}"
+  count           = "${length(var.private_subnets)}"
   subnet_id       = "${element(aws_subnet.public_subnets.*.id,count.index)}"
   allocation_id   = "${element(aws_eip.eip.*.id,count.index)}"
   
@@ -92,7 +92,7 @@ resource "aws_nat_gateway" "nat" {
 }
 
 resource "aws_route_table" "private_route_table" {
-  count           = "${length(var.azs)}"
+  count           = "${length(var.private_subnets)}"
   vpc_id          = "${aws_vpc.main.id}"
 
   route {
