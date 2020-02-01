@@ -62,7 +62,7 @@ resource "aws_route_table" "public-route-table" {
 }
 
 resource "aws_route_table_association" "public-route-table-association" {
-  route_table_id = "${aws_route_table.public_route_table.id}"
+  route_table_id = "${aws_route_table.public-route-table.id}"
   subnet_id      = "${element(aws_subnet.public-subnets.*.id,count.index)}"
   count          = "${length(var.public-subnets)}"
 }
@@ -108,6 +108,6 @@ resource "aws_route_table" "private-route-table" {
 
 resource "aws_route_table_association" "private-route-table-association" {
   count            = "${length(var.private-subnets)}"
-  route_table_id   = "${element(aws_route_table.private_route_table.*.id,count.index)}"
+  route_table_id   = "${element(aws_route_table.private-route-table.*.id,count.index)}"
   subnet_id        = "${element(aws_subnet.private-subnets.*.id,count.index)}"
 }
