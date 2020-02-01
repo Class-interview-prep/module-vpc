@@ -9,29 +9,29 @@ resource "aws_vpc" "main" {
   }
 }
 
-resource "aws_subnet" "public_subnets" {
+resource "aws_subnet" "public-subnets" {
   vpc_id                  = "${aws_vpc.main.id}"
-  count                   = "${length(var.public_subnets)}"
+  count                   = "${length(var.public-subnets)}"
   availability_zone       = "${element(var.azs,count.index)}"
-  cidr_block              = "${element(var.public_subnets,count.index)}"
+  cidr_block              = "${element(var.public-subnets,count.index)}"
   map_public_ip_on_launch = true
   
   tags = {
-    Name              = "${var.environment}-${var.project}-Public_Subnet-${count.index+1}"
+    Name              = "${var.environment}-${var.project}-Public-Subnet-${count.index+1}"
     Environment       = "${var.environment}"
     Project           = "${var.project}"
   }
 }
 
-resource "aws_subnet" "private_subnets" {
+resource "aws_subnet" "private-subnets" {
   vpc_id                  = "${aws_vpc.main.id}"
-  count                   = "${length(var.private_subnets)}"
+  count                   = "${length(var.private-subnets)}"
   availability_zone       = "${element(var.azs,count.index)}"
-  cidr_block              = "${element(var.private_subnets,count.index)}"
+  cidr_block              = "${element(var.private-subnets,count.index)}"
   map_public_ip_on_launch = false
   
   tags = {
-    Name                  = "${var.environment}-${var.project}-Private_Subnet-${count.index+1}"
+    Name                  = "${var.environment}-${var.project}-Private-Subnet-${count.index+1}"
     Environment           = "${var.environment}"
     Project               = "${var.project}"
   }
@@ -41,13 +41,13 @@ resource "aws_internet_gateway" "igw" {
   vpc_id            = "${aws_vpc.main.id}"
 
   tags = {
-    Name            = "${var.environment}-${var.project}-Internet_Gateway"
+    Name            = "${var.environment}-${var.project}-Internet-Gateway"
     Environment     = "${var.environment}"
     Project         = "${var.project}"
   }
 }
 
-resource "aws_route_table" "public_route_table" {
+resource "aws_route_table" "public-route-table" {
   vpc_id          = "${aws_vpc.main.id}"
 
   route {
@@ -55,44 +55,44 @@ resource "aws_route_table" "public_route_table" {
     gateway_id    = "${aws_internet_gateway.igw.id}"
   }
     tags = {
-    Name          = "${var.environment}-${var.project}-Public_Route_Table"
+    Name          = "${var.environment}-${var.project}-Public-Route-Table"
     Environment   = "${var.environment}"
     Project       = "${var.project}"
   }
 }
 
-resource "aws_route_table_association" "public_route_table_association" {
+resource "aws_route_table_association" "public-route-table-association" {
   route_table_id = "${aws_route_table.public_route_table.id}"
-  subnet_id      = "${element(aws_subnet.public_subnets.*.id,count.index)}"
-  count          = "${length(var.public_subnets)}"
+  subnet_id      = "${element(aws_subnet.public-subnets.*.id,count.index)}"
+  count          = "${length(var.public-subnets)}"
 }
 
 resource "aws_eip" "eip" {
-  count          = "${length(var.private_subnets)}"
+  count          = "${length(var.private-subnets)}"
   vpc            = true
 
   tags = {
-    Name          = "${var.environment}-${var.project}-Elastic_IP-${count.index+1}"
+    Name          = "${var.environment}-${var.project}-Elastic-IP-${count.index+1}"
     Environment   = "${var.environment}"
     Project       = "${var.project}"
   }
 }
 
 resource "aws_nat_gateway" "nat" {
-  count           = "${length(var.private_subnets)}"
-  subnet_id       = "${element(aws_subnet.public_subnets.*.id,count.index)}"
+  count           = "${length(var.private-subnets)}"
+  subnet_id       = "${element(aws_subnet.public-subnets.*.id,count.index)}"
   allocation_id   = "${element(aws_eip.eip.*.id,count.index)}"
   
 
   tags = {
-    Name          = "${var.environment}-${var.project}-Nat_Gateway-${count.index+1}"
+    Name          = "${var.environment}-${var.project}-Nat-Gateway-${count.index+1}"
     Environment   = "${var.environment}"
     Project       = "${var.project}"
   }
 }
 
-resource "aws_route_table" "private_route_table" {
-  count           = "${length(var.private_subnets)}"
+resource "aws_route_table" "private-route-table" {
+  count           = "${length(var.private-subnets)}"
   vpc_id          = "${aws_vpc.main.id}"
 
   route {
@@ -100,14 +100,14 @@ resource "aws_route_table" "private_route_table" {
     nat_gateway_id   = "${element(aws_nat_gateway.nat.*.id,count.index)}"
   }
     tags = {
-    Name             = "${var.environment}-${var.project}-Private_Route_Table-${count.index+1}"
+    Name             = "${var.environment}-${var.project}-Private-Route-Table-${count.index+1}"
     Environment      = "${var.environment}"
     Project          = "${var.project}"
   }
 }
 
-resource "aws_route_table_association" "private_route_table_association" {
-  count            = "${length(var.private_subnets)}"
+resource "aws_route_table_association" "private-route-table-association" {
+  count            = "${length(var.private-subnets)}"
   route_table_id   = "${element(aws_route_table.private_route_table.*.id,count.index)}"
-  subnet_id        = "${element(aws_subnet.private_subnets.*.id,count.index)}"
+  subnet_id        = "${element(aws_subnet.private-subnets.*.id,count.index)}"
 }

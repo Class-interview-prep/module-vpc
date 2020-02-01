@@ -7,7 +7,7 @@ project         = "${var.project}"
 environment     = "${var.environment}"
 
 azs             = "${var.azs}"
-public_subnets  = "${var.public_subnets}"
-private_subnets = "${var.private_subnets}"
+public-subnets  = "${var.public-subnets}"
+private-subnets = "${var.private-subnets}"
 
 }

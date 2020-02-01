@@ -1,15 +1,15 @@
-output "vpc_id" {
-  value = "${module.vpc.vpc_id}"
+output "vpc-id" {
+  value = "${module.vpc.vpc-id}"
 }
 
-output "vpc_cidr" {
-  value = "${module.vpc.vpc_cidr}"
+output "vpc-cidr" {
+  value = "${module.vpc.vpc-cidr}"
 }
 
-output "public_subnets" {
-  value = "${module.vpc.public_subnets}"
+output "public-subnets" {
+  value = "${module.vpc.public-subnets}"
 }
 
-output "private_subnets" {
-  value = "${module.vpc.private_subnets}"
+output "private-subnets" {
+  value = "${module.vpc.private-subnets}"
 }

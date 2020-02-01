@@ -7,10 +7,10 @@ variable "environment" {}
 variable "azs" {
     type = "list"
 }
-variable "public_subnets" {
+variable "public-subnets" {
     type = "list"
 }
-variable "private_subnets" {
+variable "private-subnets" {
     type = "list"
 }
 
