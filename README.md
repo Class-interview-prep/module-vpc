@@ -25,19 +25,19 @@ public_subnets  = ["10.0.1.0/24","10.0.2.0/24","10.0.3.0/24"]
 private_subnets = ["10.0.11.0/24","10.0.12.0/24","10.0.13.0/24"]
 }
 
-output "vpc-id" {
-  value = "${module.vpc.vpc-id}"
+output "vpc_id" {
+  value = "${module.vpc.vpc_id}"
 }
 
-output "vpc-cidr" {
-  value = "${module.vpc.vpc-cidr}"
+output "vpc_cidr" {
+  value = "${module.vpc.vpc_cidr}"
 }
 
-output "public-subnets" {
-  value = "${module.vpc.public-subnets}"
+output "public_subnets" {
+  value = "${module.vpc.public_subnets}"
 }
 
-output "private-subnets" {
-  value = "${module.vpc.private-subnets}"
+output "private_subnets" {
+  value = "${module.vpc.private_subnets}"
 }
   ```

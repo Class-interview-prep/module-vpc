@@ -9,11 +9,11 @@ resource "aws_vpc" "main" {
   }
 }
 
-resource "aws_subnet" "public-subnets" {
+resource "aws_subnet" "public_subnets" {
   vpc_id                  = "${aws_vpc.main.id}"
-  count                   = "${length(var.public-subnets)}"
+  count                   = "${length(var.public_subnets)}"
   availability_zone       = "${element(var.azs,count.index)}"
-  cidr_block              = "${element(var.public-subnets,count.index)}"
+  cidr_block              = "${element(var.public_subnets,count.index)}"
   map_public_ip_on_launch = true
   
   tags = {
@@ -23,11 +23,11 @@ resource "aws_subnet" "public-subnets" {
   }
 }
 
-resource "aws_subnet" "private-subnets" {
+resource "aws_subnet" "private_subnets" {
   vpc_id                  = "${aws_vpc.main.id}"
-  count                   = "${length(var.private-subnets)}"
+  count                   = "${length(var.private_subnets)}"
   availability_zone       = "${element(var.azs,count.index)}"
-  cidr_block              = "${element(var.private-subnets,count.index)}"
+  cidr_block              = "${element(var.private_subnets,count.index)}"
   map_public_ip_on_launch = false
   
   tags = {
@@ -47,7 +47,7 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
-resource "aws_route_table" "public-route-table" {
+resource "aws_route_table" "public_route_table" {
   vpc_id          = "${aws_vpc.main.id}"
 
   route {
@@ -61,14 +61,14 @@ resource "aws_route_table" "public-route-table" {
   }
 }
 
-resource "aws_route_table_association" "public-route-table-association" {
-  route_table_id = "${aws_route_table.public-route-table.id}"
-  subnet_id      = "${element(aws_subnet.public-subnets.*.id,count.index)}"
-  count          = "${length(var.public-subnets)}"
+resource "aws_route_table_association" "public_route_table_association" {
+  route_table_id = "${aws_route_table.public_route_table.id}"
+  subnet_id      = "${element(aws_subnet.public_subnets.*.id,count.index)}"
+  count          = "${length(var.public_subnets)}"
 }
 
 resource "aws_eip" "eip" {
-  count          = "${length(var.private-subnets)}"
+  count          = "${length(var.private_subnets)}"
   vpc            = true
 
   tags = {
@@ -79,8 +79,8 @@ resource "aws_eip" "eip" {
 }
 
 resource "aws_nat_gateway" "nat" {
-  count           = "${length(var.private-subnets)}"
-  subnet_id       = "${element(aws_subnet.public-subnets.*.id,count.index)}"
+  count           = "${length(var.private_subnets)}"
+  subnet_id       = "${element(aws_subnet.public_subnets.*.id,count.index)}"
   allocation_id   = "${element(aws_eip.eip.*.id,count.index)}"
   
 
@@ -91,8 +91,8 @@ resource "aws_nat_gateway" "nat" {
   }
 }
 
-resource "aws_route_table" "private-route-table" {
-  count           = "${length(var.private-subnets)}"
+resource "aws_route_table" "private_route_table" {
+  count           = "${length(var.private_subnets)}"
   vpc_id          = "${aws_vpc.main.id}"
 
   route {
@@ -106,8 +106,8 @@ resource "aws_route_table" "private-route-table" {
   }
 }
 
-resource "aws_route_table_association" "private-route-table-association" {
-  count            = "${length(var.private-subnets)}"
-  route_table_id   = "${element(aws_route_table.private-route-table.*.id,count.index)}"
-  subnet_id        = "${element(aws_subnet.private-subnets.*.id,count.index)}"
+resource "aws_route_table_association" "private_route_table_association" {
+  count            = "${length(var.private_subnets)}"
+  route_table_id   = "${element(aws_route_table.private_route_table.*.id,count.index)}"
+  subnet_id        = "${element(aws_subnet.private_subnets.*.id,count.index)}"
 }
